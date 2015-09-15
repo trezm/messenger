@@ -1,0 +1,9 @@
+{
+  "name": "Messenger",
+  "version": "0.0.1",
+  "main": "lib/CircleErrors.js",
+  "dependencies": {
+    "simple-git": "^1.8.0",
+    "underscore": "1.7.0"
+  }
+}

@@ -1,34 +1,41 @@
 (function() {
   var git = require('./transport').git;
   var crypto = require('./crypto').rsa;
-  var readline = require('readline');
-
-  git.initialize('git@github.com:trezm/test_repo.git').then(function() {
-    console.log('Connected to repo');
-  });
-
-  var rl = readline.createInterface({
+  var fs = require('fs');
+  var readlineModule = require('readline');
+  GLOBAL.readline = readlineModule.createInterface({
     input: process.stdin,
     output: process.stdout,
     prompt: '> '
   });
 
-  rl.prompt();
+  git.setup()
+    .then(function() {
+      console.log('Connected to repo');
+      return _setupCrypto();
+    })
+    .then(function() {
+      readline.prompt();
 
-  rl.on('line', function(line) {
-    switch (line) {
-      case 'exit':
-        process.exit(0);
-        break;
-      default:
-        _writeMessage(line)
-          .then(function() {
-            rl.prompt();
-          });
-    }
-  });
+      readline.on('line', function(line) {
+        switch (line) {
+          case 'exit':
+            process.exit(0);
+            break;
+          default:
+            _writeMessage(line)
+              .then(function() {
+                readline.prompt();
+              });
+        }
+      });
 
-  _beginLoop();
+      _beginLoop();
+    });
+
+  function _setupCrypto() {
+    return crypto.setup();
+  }
 
   function _writeMessage(message) {
     return git.push(crypto.encode(message));
@@ -49,7 +56,7 @@
             console.log(timestamp + crypto.decode(data));
           }
 
-          rl.prompt();
+          readline.prompt();
         })
     }, 10000);
   }

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "lib/CircleErrors.js",
   "dependencies": {
-    "promise": "^7.0.4",
+    "shelljs": "^0.5.3",
     "simple-git": "^1.8.0",
     "underscore": "1.7.0",
     "ursa": "git@github.com:quartzjer/ursa.git#f92a0d23d68ba7dd0ec8c0d45fce657e333bdd34"
